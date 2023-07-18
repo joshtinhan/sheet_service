@@ -1,26 +1,18 @@
 async function getData() {
-  const res = await fetch('http://localhost:3001/api/auth')
-  // The return value is *not* serialized
-  // You can return Date, Map, Set, etc.
- 
-  // Recommendation: handle errors
-
-//   if (!res.ok) {
-//     // This will activate the closest `error.js` Error Boundary
-//     throw new Error('Failed to fetch data')
-//   }
-
-    // console.log('====================================');
-    // console.log(res.body);
-    // console.log('====================================');
-  return res.body
+    const res = await fetch('http://localhost:3001/api/auth', {
+        headers: {
+            "content-type": "application/json;charset=UTF-8",
+        }
+    })
+  if (!res.ok) {
+    // This will activate the closest `error.js` Error Boundary
+    throw new Error('Failed to fetch data')
+  }
+  return await res.json()
 }
 
 export default async function Test() {
-    const data = await getData()
-    console.log('====================================');
-    console.log(data);
-    console.log('====================================');
+    const data1 = await getData()
     return (
         <main className="flex min-h-screen flex-col items-center justify-between p-24">
             <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
@@ -28,6 +20,7 @@ export default async function Test() {
                 Get started by editing&nbsp;
                 <code className="font-mono font-bold">src/app/test/page.tsx</code>
                 </p>
+                {data1?.row?.map((value)=>value).join('')}
             </div>
         </main> 
     )

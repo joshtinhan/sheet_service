@@ -7,7 +7,7 @@ function formatData(data: any) {
   return data;
 }
 
-export async function GET(req: NextApiRequest) {
+export async function GET(req: Request) {
   if (req.method !== 'GET') NextResponse.json({ error: 'Methods not allowed' }, { status: 405 })
 
   try {
@@ -34,10 +34,12 @@ export async function GET(req: NextApiRequest) {
     });
     const rows = response.data.values;
     const formattedData = formatData(rows);
-
-    return new NextResponse(JSON.stringify(rows));
+    console.log('====================================');
+    console.log('123',rows);
+    console.log('====================================');
+    return NextResponse.json({"row":formattedData})
   } catch (error) {
-    console.error(error);
+    console.log(error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
